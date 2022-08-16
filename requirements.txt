@@ -21,3 +21,4 @@ sklearn
 nltk
 wordcloud
 text_preprocessing
+fasttext
