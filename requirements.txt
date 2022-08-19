@@ -22,4 +22,3 @@ nltk
 wordcloud
 text_preprocessing
 fasttext
-mpl_toolkits
