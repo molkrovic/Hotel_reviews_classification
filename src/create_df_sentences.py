@@ -6,7 +6,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-df_raw = pd.read_csv('data/raw/Big_AHR.csv')
+df_raw = pd.read_csv('../data/raw/Big_AHR.csv')
 
 df_1_star = df_raw[df_raw['rating']==1]
 df_2_stars = df_raw[df_raw['rating']==2]
@@ -28,14 +28,19 @@ def combine_texts(df):
 def create_sentences(df):
     lista_text = df['text'].tolist()
     sentences = []
-    for line in lista_text:
+    review_n = []
+    for i in range(len(lista_text)):
+        line = lista_text[i]
         line = line.rstrip()
         oraciones = line.split('.')
         for oracion in oraciones:
             oracion = oracion.lstrip(' ')
             sentences.append(oracion)
+            if len(oracion)>0:
+                review_n.append(i)
     sentences = list(filter(None, sentences))
-    return sentences
+    columns = [sentences, review_n]
+    return columns
 
 # Text preprocessing
 def preprocess_column(df):
@@ -90,8 +95,10 @@ def remove_stopwords(text_string):
 def create_df_sentences(df):
     df = delete_columns(df)
     df = combine_texts(df)
-    sentences = create_sentences(df)
-    df_sentences = pd.DataFrame (sentences, columns = ['text'])
+    cols = create_sentences(df)
+    sentences = cols[0]
+    review_index = cols[1]
+    df_sentences = pd.DataFrame({'text':sentences, 'review_index':review_index})
     df_sentences = preprocess_column(df_sentences)
     df_sentences['text_processed'] = df_sentences['text_processed'].apply(normalize_str).apply(non_alphanumeric).apply(multiple_esp).apply(remove_stopwords)
     df_sentences = df_sentences.dropna(subset=['text_processed'])
@@ -104,13 +111,13 @@ df_sentences_4_stars = create_df_sentences(df_4_stars)
 df_sentences_5_stars = create_df_sentences(df_5_stars)
 
 # Save dataframes as csv
-df_sentences_1_star.to_csv('data/interim/sentences_1_star.csv', index=False)
+df_sentences_1_star.to_csv('../data/interim/sentences_1_star.csv', index=False)
 print('sentences_1_star was saved')
-df_sentences_2_stars.to_csv('data/interim/sentences_2_stars.csv', index=False)
+df_sentences_2_stars.to_csv('../data/interim/sentences_2_stars.csv', index=False)
 print('sentences_2_stars was saved')
-df_sentences_3_stars.to_csv('data/interim/sentences_3_stars.csv', index=False)
+df_sentences_3_stars.to_csv('../data/interim/sentences_3_stars.csv', index=False)
 print('sentences_3_stars was saved')
-df_sentences_4_stars.to_csv('data/interim/sentences_4_stars.csv', index=False)
+df_sentences_4_stars.to_csv('../data/interim/sentences_4_stars.csv', index=False)
 print('sentences_4_stars was saved')
-df_sentences_5_stars.to_csv('data/interim/sentences_5_stars.csv', index=False)
+df_sentences_5_stars.to_csv('../data/interim/sentences_5_stars.csv', index=False)
 print('sentences_5_stars was saved')

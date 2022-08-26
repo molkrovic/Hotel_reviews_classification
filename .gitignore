@@ -1,1 +1,8 @@
 Balanced_AHR.csv
+positive_sentences_clusters.csv
+negative_sentences_clusters.csv
+positive_key_phrases.csv
+negative_key_phrases.csv
+*.csv
+*.png
+*.txt
