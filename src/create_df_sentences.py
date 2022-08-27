@@ -25,7 +25,7 @@ def combine_texts(df):
     return df
 
 # Create list with each sentence (separated by .) separately
-def create_sentences(df):
+def create_sentences(df, stars):
     lista_text = df['text'].tolist()
     sentences = []
     review_n = []
@@ -37,7 +37,7 @@ def create_sentences(df):
             oracion = oracion.lstrip(' ')
             sentences.append(oracion)
             if len(oracion)>0:
-                review_n.append(i)
+                review_n.append(str(stars)+'_'+str(i))
     sentences = list(filter(None, sentences))
     columns = [sentences, review_n]
     return columns
@@ -92,10 +92,10 @@ def remove_stopwords(text_string):
     sentence = ' '.join(str(x) for x in filtered_sentence)
     return sentence
 
-def create_df_sentences(df):
+def create_df_sentences(df, stars):
     df = delete_columns(df)
     df = combine_texts(df)
-    cols = create_sentences(df)
+    cols = create_sentences(df, stars)
     sentences = cols[0]
     review_index = cols[1]
     df_sentences = pd.DataFrame({'text':sentences, 'review_index':review_index})
@@ -104,11 +104,11 @@ def create_df_sentences(df):
     df_sentences = df_sentences.dropna(subset=['text_processed'])
     return df_sentences
 
-df_sentences_1_star = create_df_sentences(df_1_star)
-df_sentences_2_stars = create_df_sentences(df_2_stars)
-df_sentences_3_stars = create_df_sentences(df_3_stars)
-df_sentences_4_stars = create_df_sentences(df_4_stars)
-df_sentences_5_stars = create_df_sentences(df_5_stars)
+df_sentences_1_star = create_df_sentences(df_1_star, 1)
+df_sentences_2_stars = create_df_sentences(df_2_stars, 2)
+df_sentences_3_stars = create_df_sentences(df_3_stars, 3)
+df_sentences_4_stars = create_df_sentences(df_4_stars, 4)
+df_sentences_5_stars = create_df_sentences(df_5_stars, 5)
 
 # Save dataframes as csv
 df_sentences_1_star.to_csv('../data/interim/sentences_1_star.csv', index=False)
