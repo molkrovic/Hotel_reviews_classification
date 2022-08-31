@@ -2,7 +2,10 @@
 
 _The objective is to analyze which aspects are mentioned as positive and which as negative in the reviews of Andalusian hotels._
 
+
 **Content in src:**
+
+explore.ipynb --> Initial exploration of the data.
 
 create_df_sentences.py --> Preprocessing and cleaning the text. Division of the dataset according to the rating of the review. Divide each comment into sentences.
 
