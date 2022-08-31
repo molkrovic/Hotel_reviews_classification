@@ -1,4 +1,6 @@
-#### **Hotel_reviews_classification**
+### **Hotel reviews classification**
+
+_The objective is to analyze which aspects are mentioned as positive and which as negative in the reviews of Andalusian hotels._
 
 **Content in src:**
 
